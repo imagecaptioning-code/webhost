@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Captioning</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #3E4E6C, #283A59);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.4em;
+	    font: Calibri;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 15px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #3E4E6C;
+            transform: scale(1.1);
+        }
+
+        /* Sections (default left alignment for tabs) */
+        section {
+            display: none; /* Hidden by default */
+            padding: 20px 10px;
+            background: #f4f4f9;
+            text-align: left;
+            margin: 10px 10px;
+        }
+
+        /* Active section (details centered) */
+        section.active {
+            display: block;
+            padding: 30px 20px;
+            margin: 20px auto;
+            max-width: 1450px;
+            border-radius: 10px;
+            background: white;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #3E4E6C;
+        }
+
+        section p, section ul {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        /* Image Styling */
+        img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Button Styling */
+        .button-container {
+            text-align: center; /* Center the button container */
+            margin-top: 20px; /* Add space above the button */
+        }
+
+        /* Try it Now Button */
+        .try-it-now-btn {
+            background-color: #007bff; /* Blue color */
+            color: white; /* White text */
+            padding: 10px 20px; /* Padding for the button */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 16px; /* Text size */
+            cursor: pointer; /* Cursor changes to pointer on hover */
+            transition: background-color 0.3s ease; /* Smooth transition */
+            margin-top: 20px; /* Space from other elements */
+        }
+
+        .try-it-now-btn:hover {
+            background-color: #0056b3; /* Darker blue when hovered */
+        }
+
+        /* Footer */
+        footer {
+            background-color: #283A59;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Developer Section */
+        .developer {
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 1.3em;
+            color: #333;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            position: relative;
+        }
+
+        /* Hover effect for the developer names */
+        .developer:hover {
+            color: #3E4E6C;
+        }
+
+        .developer:hover::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 3px;
+            background-color: #3E4E6C; /* Blue rectangle color */
+            animation: slideIn 0.3s forwards;
+        }
+
+        /* Create the blue line animation */
+        @keyframes slideIn {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        .developer img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        /* Developer Details */
+        .developer-details {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .developer-details.active {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav a {
+                font-size: 1em;
+                padding: 8px 10px;
+            }
+
+            section h2 {
+                font-size: 2em;
+            }
+
+            form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PixelTales</h1>
+    </header>
+
+    <nav>
+        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#" onclick="showSection('captioning')">Captioning Model</a>
+        <a href="#" onclick="showSection('about')">About Us</a>
+        <a href="#" onclick="showSection('contact')">Contact Us</a>
+    </nav>
+
+    <!-- Home Section -->
+<section id="home" class="active">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+        <!-- Text Section -->
+        <div style="max-width: 50%; padding: 20px;">
+            <h2>Welcome to Image Caption Generator</h2>
+            <p>Explore the amazing possibilities of Image Captioning at the crossroads of AI and creativity!</p>
+	 <!-- Animated Text -->
+    <div class="animated-text">
+        Image Captioning uses artificial intelligence to automatically generate textual descriptions for images.
+        It helps bridge the gap between visual and textual data, enabling applications in accessibility, search, and social media.
+    </div>
+	
+<!-- CSS for Animated Text -->
+<style>
+    /* Animated Text */
+    .animated-text {
+        font-size: 1.5em;
+        font-weight: ;
+        color: gray;
+        text-align: left;
+        margin-top: 20px;
+        opacity: 0;
+        animation: typing 5s forwards;
+    }
+
+    @keyframes typing {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+</style>
+
+
+
+            <!-- Try it Now Button -->
+            <button class="try-it-now-btn" onclick="showSection('captioning')">Try it Now</button>
+        </div>
+
+        <!-- Image Section -->
+        <div style="max-width: 40%; text-align: center;">
+            <img src="https://i.imgur.com/1lEmVeV.jpeg" alt="Captioning Illustration">
+	
+        </div>
+    </div>
+</section>
+
+
+    <!-- Captioning Model Section -->
+    <section id="captioning">
+        <h2>Captioning Model</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <br>
+            <button type="submit">Get Caption</button>
+        </form>
+        <div id="result"></div>
+        <img src="https://i.imgur.com/i4WgXTp.jpeg" alt="Captioning Model Illustration">
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+        <h2>Meet the Team</h2>
+        <p>We are a passionate team of developers dedicated to advancing the field of image captioning through artificial intelligence. Our team consists of skilled individuals with expertise across different areas of technology, each bringing their own unique strengths and perspectives. Below, you will find a little more about each team member, their qualifications, roles, and contact information.</p>
+		<br><img src="https://i.imgur.com/TSdN9tM.jpeg" width="0" height="300" alt="Captioning Model Illustration"></br>
+        <!-- Developer Sections -->
+        <div class="developer" onclick="toggleDetails('dev1')">
+            <img src="https://i.imgur.com/jFJihAB.jpeg" alt="Anurag Pandey">
+            <strong>Anurag Pandey</strong>
+        </div>
+        <div id="dev1" class="developer-details">
+            <img src="https://i.imgur.com/jFJihAB.jpeg" alt="Anurag Pandey">
+            <p><strong>Name:</strong> Anurag Pandey</p>
+            <p><strong>Qualification:</strong> B.Tech in Computer Science</p>
+            <p><strong>Contact:</strong> anuragpandey15095@gmail.com</p>
+        </div>
+
+        <div class="developer" onclick="toggleDetails('dev2')">
+            <img src="https://i.imgur.com/B8Vmen5.jpeg" alt="Arpit Patel">
+            <strong>Arpit Patel</strong>
+        </div>
+        <div id="dev2" class="developer-details">
+            <img src="https://i.imgur.com/B8Vmen5.jpeg" alt="Arpit Patel">
+            <p><strong>Name:</strong> Arpit Patel</p>
+            <p><strong>Qualification:</strong> B.Tech in Computer Science</p>
+            <p><strong>Contact:</strong> imarpitsoe@gmail.com</p>
+        </div>
+
+        <div class="developer" onclick="toggleDetails('dev3')">
+            <img src="https://i.imgur.com/cgeCnDv.jpeg"" alt="Adarsh Vishwakarma">
+            <strong>Adarsh Vishwakarma</strong>
+        </div>
+        <div id="dev3" class="developer-details">
+            <img src="https://i.imgur.com/cgeCnDv.jpeg" alt="Adarsh Vishwakarma">
+            <p><strong>Name:</strong> Adarsh Vishwakarma</p>
+            <p><strong>Qualification:</strong> B.Tech in Computer Science</p>
+            <p><strong>Contact:</strong> adarshcs12level@gmail.com</p>
+        </div>
+ 	<div class="developer" onclick="toggleDetails('dev4')">
+            <img src="https://i.imgur.com/IHhQsFs.jpeg" alt="Afnan Khan">
+            <strong>Afnan Khan</strong>
+        </div>
+        <div id="dev4" class="developer-details">
+            <img src="https://i.imgur.com/IHhQsFs.jpeg” alt="Afnan Khan">
+            <p><strong>Name:</strong> Afnan Khan</p>
+            <p><strong>Qualification:</strong> B.Tech in Computer Science</p>
+            <p><strong>Contact:</strong> khanafnan232@gmail.com </p>
+        </div>
+
+    </section>
+
+     <!-- Contact Us Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>If you have any questions or would like to collaborate, feel free to reach out to us via email!</p>
+        <p><strong>Email:</strong> anuragpandey15095@gmail.com </p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 PixelTales. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Show the corresponding section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Show the selected section
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Toggle developer details visibility
+        function toggleDetails(devId) {
+            var details = document.getElementById(devId);
+            details.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
